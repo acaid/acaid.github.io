@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Cascade</title>
+    <link rel="stylesheet" href="app.css" media="screen" title="no title" charset="utf-8">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <!-- <script type="text/javascript" src="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js"></script> -->
+
+    <script type="text/javascript" src="app.js"></script>
+  </head>
+  <body>
+      <div class="inputs">
+        <!-- <input id="howWide" type="number" autofocus placeholder="how wide?"></input> -->
+        <form>
+          <select name="How Wide?">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option>
+          </select>
+        </form>
+
+
+
+
+
+        <button id="build">Build!</button>
+        <button id="btn" onclick="runner()">Flip!</button>
+      </div>
+      <div class="row">
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+        <div class="cascade"></div>
+      </div>
+  <script type="text/javascript">
+      var elems = document.querySelectorAll(".row > .cascade");
+      var count = elems.length;
+      var width = Math.sqrt(count);
+
+      // var squareMe = document.getElementById('howWide').value;
+      // var kinder = Array.prototype.slice.call(document.getElementsByClassName('cascade'));
+      // var fullWidth = $('body').width(); //get body width
+      // var split = (fullWidth/squareMe); //get element width
+
+  </script>
+  </body>
+</html>
