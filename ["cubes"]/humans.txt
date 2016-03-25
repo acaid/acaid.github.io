@@ -1,2 +1,0 @@
-based on David Walsh's CSS cube
-https://davidwalsh.name/css-cube
