@@ -90,9 +90,11 @@ $(document).ready(function() {
 
 
 //FLIP BUTTON
-function runner(){
-  if (document.getElementById('btn').className === "ran"){
-      document.getElementById('btn').className = " ";
+function runner() {
+  var flipButton = document.getElementById('btn'); // woof, ID is "btn"? How about "flip-button"
+
+  if (flipButton.className === "ran"){
+      flipButton.className = " ";
       var children = Array.prototype.slice.call(document.getElementsByClassName('flip')); // create new array, instead of a reference
       for (var a = 0; a < children.length; a++ ){
         children[a].className = "cascade";
@@ -100,7 +102,7 @@ function runner(){
         $('.cascade').css('border-radius', 0 );
       }
   } else {
-    document.getElementById('btn').className ="ran";
+    flipButton.className ="ran";
     doer();
   }
 };
