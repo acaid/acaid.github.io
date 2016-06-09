@@ -1,2 +1,6 @@
 based on David Walsh's CSS cube
 https://davidwalsh.name/css-cube
+
+Options icon by Gonzalo Bravo
+
+css bounce https://github.com/daneden/animate.css
