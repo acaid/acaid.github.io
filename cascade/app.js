@@ -5,7 +5,7 @@
 
 // Setting variables to be global... figure out how to do this better
 var squareMe = 4;
-console.log("hey, square " +squareMe);
+console.log("hey, square " + squareMe);
 var kinder = [];
 var fullWidth = 0; //get body width
 var subWidth = 0; //get element width
@@ -17,17 +17,17 @@ var subMargin = 0;
 
 
 // SET COLORS!
-function setColor(alpha){
+function setColor(alpha) {
   var rrr = Math.floor(Math.random() * 256);
   var ggg = Math.floor(Math.random() * 256);
   var bbb = Math.floor(Math.random() * 256);
-  if (alpha){
+  if (alpha) {
       var alf = Math.floor(Math.random() * 100);
       console.log(alf);
-      if (alf < 100){
+      if (alf < 100) {
         alf = (alf * .01).toFixed(2);
       } else {
-        afl = 1;
+        alf = 1;
       }
     return "rgba(" + rrr + "," + ggg + "," + bbb + "," + alf + ")";
   }
@@ -38,45 +38,44 @@ $(document).ready(function() {
 
 
 
-    $("#build").click(function(){
+    $("#build").click(function() {
       squareMe = $("select").val();
-      console.log("hey, square " +squareMe);
-      if (squareMe == null){
+      console.log("hey, square " + squareMe);
+      if (squareMe == null) {
         return;
-      }
-      else {
-        console.log("hey, square " +squareMe);
-        kinder = Array.prototype.slice.call(document.getElementsByClassName('cascade'));
-        kinder = $('.cascade').length;
-        fullWidth = $('body').width() / parseFloat($('body').css("font-size")); //get body width
-        subWidth = (fullWidth/squareMe * .8); //get element width
-        subMargin = (fullWidth/squareMe * .1);
-        console.log("this is subWidth "+subWidth);
-        console.log("this is subMargin "+subMargin);
-        console.log((Math.sqrt(kinder)));
+      } else {
+          console.log("hey, square " +squareMe);
+          kinder = Array.prototype.slice.call(document.getElementsByClassName('cascade'));
+          kinder = $('.cascade').length;
+          fullWidth = $('body').width() / parseFloat($('body').css("font-size")); //get body width
+          subWidth = (fullWidth/squareMe * .8); //get element width
+          subMargin = (fullWidth/squareMe * .1);
+          console.log("this is subWidth "+subWidth);
+          console.log("this is subMargin "+subMargin);
+          console.log((Math.sqrt(kinder)));
 
-        if ((Math.sqrt(kinder.length)) == squareMe){
-          console.log("Oh good, it's the same size...Boring!");
-        }
-        else {
+          if ((Math.sqrt(kinder.length)) == squareMe) {
+            console.log("Oh good, it's the same size...Boring!");
+          } else {
             $('div').remove('.cascade');
             console.log("Yay! Break stuff!");
-            for (var c = 0; c < (squareMe * squareMe); c++){ //haha c++ ...wubwub
+            for (var c = 0; c < (squareMe * squareMe); c++) { //haha c++ ...wubwub // boooooo but LOL I chuckled
               $(".row").append('<div class="cascade"></div>');
               $(".cascade").css('width', subWidth + "em");
               $(".cascade").css('height', subWidth + "em" );
               $(".cascade").css('margin', subMargin + "em");
-              $('.cascade').css('background-color', setColor() ); // SET COLOR
+              $('.cascade').css('background-color', setColor()); // SET COLOR
 
               console.log("Make stuff!");
 
-              elems = document.querySelectorAll(".row > .cascade");
+              // where are you declaring these? WHY DOES THIS WORK?
+              elems = document.querySelectorAll(".cascade");
               count = elems.length;
               width = Math.sqrt(count);
             }
+          }
         }
-      }
-  });
+    });
 
   //Build menu
 
@@ -90,9 +89,11 @@ $(document).ready(function() {
 
 
 //FLIP BUTTON
-function runner(){
-  if (document.getElementById('btn').className === "ran"){
-      document.getElementById('btn').className = " ";
+function runner() {
+  var flipButton = document.getElementById('btn'); // woof, ID is "btn"? How about "flip-button"
+
+  if (flipButton.className === "ran"){
+      flipButton.className = " ";
       var children = Array.prototype.slice.call(document.getElementsByClassName('flip')); // create new array, instead of a reference
       for (var a = 0; a < children.length; a++ ){
         children[a].className = "cascade";
@@ -100,7 +101,7 @@ function runner(){
         $('.cascade').css('border-radius', 0 );
       }
   } else {
-    document.getElementById('btn').className ="ran";
+    flipButton.className ="ran";
     doer();
   }
 };
@@ -165,3 +166,7 @@ function doer(){
   flip(order);
   return;
 }; // end doer()
+
+
+// You should make your variable names clearer. Let the minifiers shorten your code.
+// Also check out the airbnb coding style guide, it has some nice stuff for JS that lets your code breathe a little.

@@ -26,6 +26,9 @@
 
 
         <button id="build">Build!</button>
+
+        <!-- I'm all for getting stuff for free from WebKit but those buttons are ugly -->
+        <!-- Why not make some custom controls and dick around with event listeners? -->
         <button id="btn" onclick="runner()">Flip!</button>
       </div>
       <div class="row">
@@ -47,9 +50,23 @@
         <div class="cascade"></div>
       </div>
   <script type="text/javascript">
-      var elems = document.querySelectorAll(".row > .cascade");
-      var count = elems.length;
-      var width = Math.sqrt(count);
+      // var elems = document.querySelectorAll(".row > .cascade");
+      // why do you need the > here? 
+      // also, it's a nice style thing (I just learned) to use single quotes unless you 
+      // are referring to strings that will actually be printed to the page.
+      // someElement.classList.add('class-name');
+      // var string = "Hello, world!"
+
+      // use 'const' for anything you're not changing the value of
+      // forgive me for linking to medium (ugh)
+      // https://medium.com/javascript-scene/javascript-es6-var-let-or-const-ba58b8dcde75#.j7lk1mjkg
+      const elems = document.querySelectorAll('.cascade');
+      const count = elems.length;
+      const width = Math.sqrt(count);
+
+      // I'm not saying this is good, but you could do this. 
+      // Probably more readable to keep it how you have it, but if you're not accessing these values again...
+      const oneVariableToRuleThemAll = Math.sqrt(document.querySelectorAll('.cascade').length)
 
       // var squareMe = document.getElementById('howWide').value;
       // var kinder = Array.prototype.slice.call(document.getElementsByClassName('cascade'));
