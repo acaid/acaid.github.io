@@ -18,7 +18,7 @@ body {
   left: 0;
   right: 0;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch
+  -webkit-overflow-scrolling: touch;
   perspective: 200px;
   perspective-origin: 50% 50%;
 }
