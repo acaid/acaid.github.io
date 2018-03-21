@@ -1,0 +1,1 @@
+"use strict";!function(){var e=void 0;e=window.document.styleSheets.length>0?window.document.styleSheets[1]:window.document.styleSheets[0];var t="-"+Math.floor(60*Math.random())+"s";e.insertRule("body { animation: fadeIn 1s ease forwards, rotateGradient 60s "+t+" ease infinite }",e.cssRules.length)}();
