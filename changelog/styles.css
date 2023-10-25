@@ -1,0 +1,86 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif,
+    "Helvetica Neue", sans-serif;
+  display: flex;
+  padding: 10vw;
+}
+
+.title {
+  position: fixed;
+  width: 30vw;
+  word-wrap: break-word; /* For older browser compatibility */
+  overflow-wrap: break-word; /* Standard property to break words */
+}
+.changelog {
+  margin-left: 40vw;
+}
+
+.version {
+  color: #333;
+}
+
+h1 {
+  width: 100%;
+  font-size: 48pt;
+  line-height: 44pt;
+  margin: 0;
+}
+
+@media (min-width: 600px) {
+  h1 {
+    font-size: 8vw;
+    line-height: 7.333vw;
+  }
+  p,
+  .version {
+    font-size: 2vw;
+  }
+
+  ul {
+    font-size: 1.5vw;
+  }
+}
+
+@media (max-width: 400px) {
+  html {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  .title {
+    width: 100vw;
+    display: flex;
+    gap: 2vw;
+    align-items: flex-end;
+    box-sizing: border-box;
+    padding: 2vh 5vh 2vh 5vh;
+    background-color: white;
+  }
+
+  h1 {
+    font-size: 5vh;
+    line-height: 5vh;
+  }
+
+  #subtitle {
+    margin-bottom: 0px;
+  }
+
+  .changelog {
+    padding: 30vh 5vh 5vh 5vh;
+    margin: 0;
+  }
+}
+
+h1,
+p,
+.version,
+.letter {
+  transition: all ease-out 0.2s;
+}
