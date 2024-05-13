@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Background Canvases with Animation</title>
+  <style>
+
+    :root {
+      --brandDarkTeal: #1D5161;
+      --brandSoftTeal: #4B91A7;
+      --brandRickBlack: #000615;
+      --brandIce: #D0E7E8;
+      --brandNavy: #191C33;
+      --brandSun: #F5F82B;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--brandIce);
+      overflow: hidden;
+    }
+
+    canvas {
+      transform: rotate(45deg) translateZ(0);
+      border-radius: 50%;
+    }
+
+    .circleGroup1, .circleGroup2 {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .circleGroup1{
+      flex-wrap: wrap;
+      gap: 0px;
+      width: 420px;
+    }
+
+    .circleGroup2{
+      flex-wrap: wrap-reverse;
+      flex-direction: row-reverse;
+      gap: 0px;
+      width: 840px;
+    }
+
+    .form {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      min-width: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      box-sizing: border-box;
+      background: white;
+      border-radius: 24px;
+      z-index: 1;
+      transition: all .15s ease-out;
+      img {
+        height: 24px;
+      }
+      h1 {
+        font-size: 20px;
+        line-height: 28px;
+        font-weight:600;
+        margin-top: 48px;
+      }
+      .inputs {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        label {
+          font-size: 14px;
+          line-height: 22px;
+        }
+
+        input {
+          height: 40px;
+          border: #D8D8E3 solid 1px;
+          border-radius: 6px;
+        }
+        button {
+          font-size: 16px;
+          font-weight: 500;
+          height: 40px;
+          border: none;
+          border-radius: 8px;
+          background: var(--brandNavy);
+          color: white;
+          &:hover {
+            opacity: .9;
+          }
+          &:active {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    /************ MEDIA QUERIES ************/
+
+    @media screen and (min-width: 769px){
+      .form {
+        padding: 64px;
+        width: 480px;
+      }
+
+      .circleGroup1{
+        min-width: 420px;
+      }
+
+      .circleGroup2{
+        min-width: 840px;
+      }
+
+    }
+
+    @media screen and (min-width: 601px) and (max-width: 768px){
+      .form {
+        padding: 64px;
+        width: calc(100vw / 12 * 8);
+      }
+
+      /* .circleGroup1 {
+        top: calc(100vh / 8);
+        right: calc(100vw / 12);
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+      }
+
+      .circleGroup2 {
+        bottom: calc(100vh / 8);
+        left: calc(100vw / 12 * 6);
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+      } */
+    }
+
+    @media screen and (min-width: 461px) and (max-width: 600px){
+      .form {
+        padding: 48px;
+        width: calc(100vw / 12 * 10);
+      }
+
+      /* .circleGroup1 {
+        top: calc(100vh / 8);
+        right: calc(100vw / 12);
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+      }
+
+      .circleGroup2 {
+        bottom: calc(100vh / 8);
+        left: calc(100vw / 12 * 6);
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+      } */
+    }
+
+    @media screen and (max-width: 460px){
+      .form {
+        padding: 32px;
+        bottom: 0%;
+        top: initial;
+        left: initial;
+        transform: none;
+        width: 100vw;
+        height: 80vh;
+        border-radius: 0px;
+        transition: none;
+      }
+
+      /* .circleGroup1 {
+        top: calc(100vh / 6);
+        right: calc(100vw / 12);
+        flex-direction: column;
+        height: auto;
+        width: auto;
+      }
+
+      .circleGroup2 {
+        display: none;
+      } */
+    }
+
+
+
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script>
+
+    function sketch(p, canvasSize, amp, freq) {
+      let boundingCircleSize = canvasSize - 10;
+      let lineSpacing = canvasSize / 25 * 3;
+      let amplitude = amp;
+      let frequency = freq;
+      let xOffset = 0;
+      let initialYOffset = -1 * canvasSize / 2;
+      let animationSpeed = 4000;
+      let startTime;
+      let ampScale = 1;
+      let freqScale = 1;
+
+      //Colors
+      let brandDarkTeal = "#1D5161";
+      let brandNavy = "#191C33";
+      let brandSun = "#F5F82B";
+      let brandSoftTeal = "#4B91A7";
+      let brandRickBlack = "#000615";
+      let brandIce = "#D0E7E8";
+
+      let strokeColor;
+      let thickness;
+
+      let isHovering = false;
+
+      p.setup = function() {
+        p.createCanvas(canvasSize, canvasSize);
+        startTime = p.millis();
+
+        //Canvas background should match page background
+        p.background(brandIce);
+        
+        //Color for circle patterns
+        strokeColor = p.color(brandSoftTeal);
+        thickness = 1;
+
+        // Add event listeners for mouse movement
+        p.canvas.addEventListener('mousemove', onMouseMove);
+        p.canvas.addEventListener('mouseleave', onMouseOut);
+      };
+
+      p.draw = function() {
+        let elapsedTime = p.millis() - startTime;
+        let progress = (elapsedTime % animationSpeed) / animationSpeed;
+        let yOffset = initialYOffset + p.map(progress, 0, 1, lineSpacing, 0);
+
+        const centerX = p.width / 2;
+        const centerY = p.height / 2;
+        const radius = boundingCircleSize / 2;
+
+        p.clear();
+        p.noFill();
+        p.noStroke();
+        p.ellipse(centerX, centerY, radius * 2);
+
+        p.stroke(strokeColor);
+        p.strokeWeight(thickness);
+        p.strokeCap(p.ROUND);
+
+        for (let i = -1; i <= p.height / lineSpacing; i++) {
+          const offsetY = i * lineSpacing + yOffset;
+          let prevInsideCircle = false;
+          p.beginShape();
+          for (let x = centerX - radius; x < centerX + radius; x++) {
+            const y = amplitude * p.sin(frequency * x + xOffset) + centerY + offsetY;
+            const insideCircle = p.pow(x - centerX, 2) + p.pow(y - centerY, 2) <= p.pow(radius, 2);
+            if (insideCircle) {
+              p.vertex(x, y);
+              prevInsideCircle = true;
+            } else {
+              if (prevInsideCircle) {
+                p.endShape();
+                p.beginShape();
+              }
+              prevInsideCircle = false;
+            }
+          }
+          p.endShape(); 
+        }
+      };
+
+
+      let mouseoutAnimationTimer;
+
+      function cancelMouseoutAnimation() {
+          if (mouseoutAnimationTimer) {
+              clearTimeout(mouseoutAnimationTimer);
+              mouseoutAnimationTimer = null;
+          }
+      }
+
+      function onMouseMove(event, amplitudeScale, frequencyScale) {
+        isHovering = true;
+
+        //Cancels mouseOut transition animation if it's in progress
+        cancelMouseoutAnimation()
+
+        // Use different values for lines vs waves
+        if (amp == 0) {
+          // Calculate amplitude based on vertical position of the cursor relative to the center of the circle
+          amplitude = amp + p.map(event.offsetY - p.height / 2, -p.height / 2, p.height / 2, -ampScale * 20, ampScale * 20);
+
+          // Calculate frequency based on horizontal position of the cursor relative to the center of the circle
+          frequency = freq + p.map(event.offsetX - p.width / 2, -p.width / 2, p.width / 2, -freqScale * .1, freqScale * .1);
+        }
+
+        else {
+          // Calculate amplitude based on vertical position of the cursor relative to the center of the circle
+          amplitude = amp + p.map(event.offsetY - p.height / 2, -p.height / 2, p.height / 2, -ampScale * amp, ampScale * amp);
+
+          // Calculate frequency based on horizontal position of the cursor relative to the center of the circle
+          frequency = freq + p.map(event.offsetX - p.width / 2, -p.width / 2, p.width / 2, -freqScale * freq, freqScale * freq);
+        }
+
+        // Set line color and thickness
+        strokeColor = p.color(brandDarkTeal);
+        thickness = 1;
+    }
+
+      function onMouseOut(event) {
+        isHovering = false;
+
+        //Cancel onMouseOut transition if we start hovering again
+        if (mouseoutAnimationTimer) {
+          clearTimeout(mouseoutAnimationTimer);
+        }
+
+        // Duration of the transition in milliseconds
+        let duration = 1000;
+
+        // Reset animation parameters to their default values
+        let startAmplitude = amplitude;
+        let startFrequency = frequency;
+        let startColor = p.color(strokeColor);
+        let startThickness = thickness;
+
+        // Start time of the transition
+        let startTime = p.millis();
+
+        function updateValues() {
+          // Calculate elapsed time since the start of the transition
+          let elapsedTime = p.millis() - startTime;
+
+          // Calculate progress of the transition (value between 0 and 1)
+          let progress = p.constrain(elapsedTime / duration, 0, 1);
+
+          // Interpolate animation parameters based on progress
+          // amplitude = p.lerp(startAmplitude, canvasSize / 25, progress);
+          // frequency = p.lerp(startFrequency, canvasSize / 4000, progress);
+
+          amplitude = p.lerp(startAmplitude, amp, progress);
+          frequency = p.lerp(startFrequency, freq, progress);
+
+          //strokeColor = p.lerpColor(startColor, p.color(brandDarkTeal), progress);
+          //thickness = p.lerp(startThickness, 2, progress);
+          strokeColor = p.color(brandSoftTeal);
+
+          // Redraw the canvas
+          p.redraw();
+
+          // Continue interpolation until the duration is reached
+          if (progress < 1) {
+            //setTimeout(updateValues, 1000 / 60); // Call updateValues approximately 60 times per second
+            mouseoutAnimationTimer = setTimeout(updateValues, 1000 / 60);
+          }
+        }
+
+        // Start the interpolation
+        updateValues();
+      }
+    }
+
+    new p5(function(p) { sketch(p, 200, 8, 0.1 ); }, 'circle1');
+    new p5(function(p) { sketch(p, 200, 0, 0.1); }, 'circle2');
+    new p5(function(p) { sketch(p, 200, 0, 0.1); }, 'circle3');
+    new p5(function(p) { sketch(p, 400, 16, 0.05); }, 'circle4');
+    new p5(function(p) { sketch(p, 400, 0, 0.05); }, 'circle5');
+    new p5(function(p) { sketch(p, 400, 0, 0.05); }, 'circle6');
+
+  </script>
+</head>
+<body>
+  <!-- Container for the first group of circles -->
+  <div class="circleGroup1">
+    <div id="circle1"></div>
+    <div id="circle2"></div>
+    <div id="circle3"></div>
+  </div>
+  <!-- Container for the second group of circles -->
+  <div class="circleGroup2">
+    <div id="circle4"></div>
+    <div id="circle5"></div>
+    <div id="circle6"></div>
+  </div>
+
+    <div class="form">
+      <img src="trisniclogo.svg" alt="logo">
+      <h1>Sign in to Trinsic.</h1>
+      <div class="inputs">
+        <div class=".input">
+          <label for="">Email</label>
+          <input type="text">
+        </div>
+        <div class=".input">
+          <label for="">Password</label>
+          <input type="text">
+        </div>
+        <button>Sign In</button>
+      </div>
+    </div>
+
+</body>
+</html>
